@@ -1,2 +1,3 @@
 # React4Beginners
-Wes Bos "Catch of the Day" Tutorial reactforbeginners.com
+Wes Bos "Catch of the Day" Tutorial
+https://reactforbeginners.com/
