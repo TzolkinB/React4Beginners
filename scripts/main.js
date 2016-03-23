@@ -46,16 +46,16 @@ import helpers from './helpers';
 	render() {
 		return(
 			<div className="catch-of-the-day">
-			<div className="menu">
-			<Header tagline="Fresh Seafood Market"/>
-		{/* tagline is props */}
-		<ul className="list-of-fishes">
-		{Object.keys(this.state.fishes).map(this.renderFish)}
-		</ul>
-		</div>
-		<Order />
-		<Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
-		</div>
+				<div className="menu">
+					<Header tagline="Fresh Seafood Market"/>
+					{/* tagline is props */}
+					<ul className="list-of-fishes">
+						{Object.keys(this.state.fishes).map(this.renderFish)}
+					</ul>
+				</div>
+				<Order fishes={this.state.fishes} order={this.state.order}/>
+				<Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
+			</div>
 		)
 	}
 });
@@ -141,13 +141,49 @@ class Header extends React.Component{
 }
 
 // Order
-class Order extends React.Component{
+//class Order extends React.Component{
+var Order = React.createClass({
+	renderOrder(key) {
+		var fish = this.props.fishes[key];
+		var count = this.props.order[key];
+
+		if(!fish) {
+			return <li key={key}>Sorry, that fish is no longer available</li>
+		}
+		return (
+			<li>
+				{count}lbs
+				{fish.name}
+				<span className="price">{helpers.formatPrice(count * fish.price)}</span>
+			</li>)
+	},
 	render() {
+		// need to calculate order
+		var orderIds = Object.keys(this.props.order);
+		var total = orderIds.reduce((prevTotal, key) => {
+			var fish = this.props.fishes[key];
+			var count = this.props.order[key];
+			var isAvailable = fish && fish.status === 'available';
+			if(fish && isAvailable) {
+				return prevTotal + (count * parseInt(fish.price) || 0);
+			}
+			return prevTotal;
+		}, 0); //total starts at 0
+
 		return(
-			<p>Order</p>
+			<div className="order-wrap">
+				<h2 className="order-title">Your Order</h2>
+					<ul className="order">
+						{orderIds.map(this.renderOrder)}
+						<li className="total">
+							<strong>Total:</strong>
+							{helpers.formatPrice(total)}
+						</li>
+					</ul>
+			</div>
 			)
 	}
-}
+});
 
 
 // Inventory
