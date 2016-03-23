@@ -28,22 +28,52 @@ var App = React.createClass({
 		this.state.fishes['fish-' + timestamp] = fish; //update state object
 		this.setState({ fishes: this.state.fishes }); //set the state
 	},	
-		
+	loadSamples() {
+		this.setState({
+			fishes: require('./sample-fishes')
+		});
+	},
+	renderFish(key) {
+		return <Fish key={key} index={key} details={this.state.fishes[key]} />
+		// have to make new Fish Component since it's what is returning
+	},
+
 	render() {
 		return(
 			<div className="catch-of-the-day">
 				<div className="menu">
 					<Header tagline="Fresh Seafood Market"/>
 					{/* tagline is props */}
+					<ul className="list-of-fishes">
+						{Object.keys(this.state.fishes).map(this.renderFish)}
+					</ul>
 				</div>
 				<Order />
-				<Inventory addFish={this.addFish}/>
+				<Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
 			</div>
 		)
 	}
 });
 
-// Add Fish Form
+// OneFish TwoFish ThreeFish
+class Fish extends React.Component{
+	render() {
+		var details = this.props.details;
+		return(
+			//<li>{this.props.index}</li> Boring list lets add some css style!
+			<li className="menu-fish">
+				<img src={details.image} alt={details.name} />
+				<h3 className="fish-name">
+					{details.name}
+					<span className="price">{helpers.formatPrice(details.price)}</span>
+				</h3>
+				<p>{details.desc}</p>
+			</li>
+		)
+	}
+};
+
+// Add Fish FORM
 var AddFishForm = React.createClass({
 //class AddFishForm extends React.Component{
   createFish(event) {
@@ -113,6 +143,9 @@ class Inventory extends React.Component{
 			<div>
 				<h2>Inventory</h2>
 				<AddFishForm {...this.props} />
+				<button onClick={this.props.loadSamples}>Load Sample Fishes</button>
+				{/* we want sample fishes to load in Add not Inventory so add loadSamples to
+				App component*/}
 			</div>	
 		)
 	}
