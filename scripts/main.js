@@ -10,7 +10,10 @@ var Route = ReactRouter.Route;
 var History = ReactRouter.History;
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import helpers from './helpers';
-
+// How we can use Firebase
+import Rebase from 're-base';
+var base = Rebase.createClass('https://react-catchday.firebaseio.com/');
+	// base is reference to Firebase database
 
 // App
 //class App extends React.Component{
@@ -22,6 +25,12 @@ import helpers from './helpers';
 			fishes: {},
 			order: {}
 		}
+	},
+	componentDidMount() {
+		base.syncState(this.props.params.storeId + '/fishes', {
+			context : this, //syncs with App Component
+			state : 'fishes'
+		});
 	},
 	addToOrder(key) {
 		this.state.order[key] = this.state.order[key] + 1 || 1;
