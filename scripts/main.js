@@ -23,6 +23,10 @@ var App = React.createClass({
 			order: {}
 		}
 	},
+	addToOrder(key) {
+		this.state.order[key] = this.state.order[key] + 1 || 1;
+		this.setState({order : this.state.order}); // update order
+	},
 	addFish(fish) {
 		var timestamp = (new Date()).getTime(); // gets unique timestamp
 		this.state.fishes['fish-' + timestamp] = fish; //update state object
@@ -34,7 +38,8 @@ var App = React.createClass({
 		});
 	},
 	renderFish(key) {
-		return <Fish key={key} index={key} details={this.state.fishes[key]} />
+		return <Fish key={key} index={key} details={this.state.fishes[key]} 
+		addToOrder={this.addToOrder}/>
 		// have to make new Fish Component since it's what is returning
 	},
 
@@ -56,22 +61,31 @@ var App = React.createClass({
 });
 
 // OneFish TwoFish ThreeFish
-class Fish extends React.Component{
-	render() {
-		var details = this.props.details;
-		return(
-			//<li>{this.props.index}</li> Boring list lets add some css style!
-			<li className="menu-fish">
-				<img src={details.image} alt={details.name} />
-				<h3 className="fish-name">
-					{details.name}
-					<span className="price">{helpers.formatPrice(details.price)}</span>
-				</h3>
-				<p>{details.desc}</p>
-			</li>
-		)
-	}
-};
+var Fish = React.createClass({
+//class Fish extends React.Component{ cannot load props of null
+  onButtonClick() {
+    console.log("Adding this fish: ", this.props.index);
+    var key = this.props.index;
+    this.props.addToOrder(key);
+  },
+  render() {
+    var details = this.props.details;
+    var isAvailable = (details.status === 'available' ? true : false);
+    	{/*  boolean for is available true or false */}
+    var buttonText = (isAvailable ? 'Add To Order' : 'Sold Out');
+    return ( 
+      <li className="menu-fish"> {/* <li>{this.props.index}</li> Boring list lets add some css style! */}
+        <img src={details.image} alt={details.name} />
+        <h3 className="fish-name">
+          {details.name}
+          <span className="price">{helpers.formatPrice(details.price)}</span>
+        </h3>
+        <p>{details.desc}</p>
+        <button disabled={!isAvailable} onClick={this.onButtonClick}>{buttonText}</button>
+      </li>
+    )
+  }
+});
 
 // Add Fish FORM
 var AddFishForm = React.createClass({
