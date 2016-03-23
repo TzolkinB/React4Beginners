@@ -14,7 +14,7 @@ import helpers from './helpers';
 
 // App
 //class App extends React.Component{
-var App = React.createClass({
+	var App = React.createClass({
 	//constructor() {
 	//	super();
 	getInitialState() {
@@ -46,16 +46,16 @@ var App = React.createClass({
 	render() {
 		return(
 			<div className="catch-of-the-day">
-				<div className="menu">
-					<Header tagline="Fresh Seafood Market"/>
-					{/* tagline is props */}
-					<ul className="list-of-fishes">
-						{Object.keys(this.state.fishes).map(this.renderFish)}
-					</ul>
-				</div>
-				<Order />
-				<Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
-			</div>
+			<div className="menu">
+			<Header tagline="Fresh Seafood Market"/>
+		{/* tagline is props */}
+		<ul className="list-of-fishes">
+		{Object.keys(this.state.fishes).map(this.renderFish)}
+		</ul>
+		</div>
+		<Order />
+		<Inventory addFish={this.addFish} loadSamples={this.loadSamples}/>
+		</div>
 		)
 	}
 });
@@ -63,43 +63,43 @@ var App = React.createClass({
 // OneFish TwoFish ThreeFish
 var Fish = React.createClass({
 //class Fish extends React.Component{ cannot load props of null
-  onButtonClick() {
-    console.log("Adding this fish: ", this.props.index);
-    var key = this.props.index;
-    this.props.addToOrder(key);
-  },
-  render() {
-    var details = this.props.details;
-    var isAvailable = (details.status === 'available' ? true : false);
-    	{/*  boolean for is available true or false */}
-    var buttonText = (isAvailable ? 'Add To Order' : 'Sold Out');
-    return ( 
-      <li className="menu-fish"> {/* <li>{this.props.index}</li> Boring list lets add some css style! */}
-        <img src={details.image} alt={details.name} />
-        <h3 className="fish-name">
-          {details.name}
-          <span className="price">{helpers.formatPrice(details.price)}</span>
-        </h3>
-        <p>{details.desc}</p>
-        <button disabled={!isAvailable} onClick={this.onButtonClick}>{buttonText}</button>
-      </li>
-    )
-  }
+	onButtonClick() {
+		console.log("Adding this fish: ", this.props.index);
+		var key = this.props.index;
+		this.props.addToOrder(key);
+	},
+	render() {
+		var details = this.props.details;
+		var isAvailable = (details.status === 'available' ? true : false);
+		{/*  boolean for is available true or false */}
+		var buttonText = (isAvailable ? 'Add To Order' : 'Sold Out');
+		return ( 
+			<li className="menu-fish"> {/* <li>{this.props.index}</li> Boring list lets add some css style! */}
+				<img src={details.image} alt={details.name} />
+				<h3 className="fish-name">
+				{details.name}
+				<span className="price">{helpers.formatPrice(details.price)}</span>
+				</h3>
+				<p>{details.desc}</p>
+				<button disabled={!isAvailable} onClick={this.onButtonClick}>{buttonText}</button>
+			</li>
+		)
+	}
 });
 
 // Add Fish FORM
 var AddFishForm = React.createClass({
 //class AddFishForm extends React.Component{
-  createFish(event) {
+	createFish(event) {
     // 1. Stop the form from submitting
     event.preventDefault();
     // 2. Take the data from the form and create an object
     var fish = {
-      name: this.refs.name.value,
-      price: this.refs.price.value,
-      status: this.refs.status.value,
-      desc: this.refs.desc.value,
-      image: this.refs.image.value
+    	name: this.refs.name.value,
+    	price: this.refs.price.value,
+    	status: this.refs.status.value,
+    	desc: this.refs.desc.value,
+    	image: this.refs.image.value
     }
 
     // 3. Add the fish to the App State
@@ -107,20 +107,20 @@ var AddFishForm = React.createClass({
     this.refs.fishForm.reset();
   },
   render() {
-    return (
-      <form className="fish-edit" ref="fishForm" onSubmit={this.createFish}>
-        <input type="text" ref="name" placeholder="Fish Name"/>
-        <input type="text" ref="price" placeholder="Fish Price" />
-        <select ref="status">
-          <option value="available">Fresh!</option>
-          <option value="unavailable">Sold Out!</option>
-        </select>
-        <textarea type="text" ref="desc" placeholder="Desc"></textarea>
-        <input type="text" ref="image" placeholder="URL to Image" />
-        <button type="submit">+ Add Item </button>
-      </form>
-		)
-	}
+  	return (
+  		<form className="fish-edit" ref="fishForm" onSubmit={this.createFish}>
+	  		<input type="text" ref="name" placeholder="Fish Name"/>
+	  		<input type="text" ref="price" placeholder="Fish Price" />
+	  		<select ref="status">
+		  		<option value="available">Fresh!</option>
+		  		<option value="unavailable">Sold Out!</option>
+	  		</select>
+	  		<textarea type="text" ref="desc" placeholder="Desc"></textarea>
+	  		<input type="text" ref="image" placeholder="URL to Image" />
+	  		<button type="submit">+ Add Item </button>
+  		</form>
+  		)
+  }
 });
 
 // Header
@@ -129,14 +129,14 @@ class Header extends React.Component{
 		return(
 			<header className="top">
 				<h1>Catch 
-					<span className="ofThe">
-						<span className="of">of</span>
-						<span className="the">the</span>
-					</span>
-				 Day</h1>
+				<span className="ofThe">
+					<span className="of">of</span>
+					<span className="the">the</span>
+				</span>
+				Day</h1>
 				<h3 className="tagline"><span>{this.props.tagline}</span></h3>
 			</header>
-		)
+			)
 	}
 }
 
@@ -145,7 +145,7 @@ class Order extends React.Component{
 	render() {
 		return(
 			<p>Order</p>
-		)
+			)
 	}
 }
 
@@ -168,21 +168,21 @@ class Inventory extends React.Component{
 var StorePicker = React.createClass({
   mixins : [History], //ES6 does not have mixin support
   goToStore(event) {
-    event.preventDefault();
-    var storeId = this.refs.storeId.value;
+  	event.preventDefault();
+  	var storeId = this.refs.storeId.value;
     // var storeId gets data from the input
 	// this is StorePickers, refs is reference from ln80
-    this.history.pushState(null, '/store/' + storeId);
-  },
-  render() {
-    return (
-      <form className="store-selector" onSubmit={this.goToStore}>
-        <h2>Crazy Store Name</h2>
-        <input type="text" ref="storeId" defaultValue={helpers.getFunName()} required />
-        <input type="Submit" />
-      </form>
-    )
-  }
+	this.history.pushState(null, '/store/' + storeId);
+	},
+	render() {
+		return (
+			<form className="store-selector" onSubmit={this.goToStore}>
+				<h2>Crazy Store Name</h2>
+				<input type="text" ref="storeId" defaultValue={helpers.getFunName()} required />
+				<input type="Submit" />
+			</form>
+		)
+	}
 
 });
 
@@ -198,9 +198,9 @@ class NotFound extends React.Component{
 // Routes
 let routes = (
 	<Router history={createBrowserHistory()}>
-		<Route path="/" component={StorePicker}/>
-		<Route path="/store/:storeId" component={App}/>
-		<Route path="*" component={NotFound}/>
+	<Route path="/" component={StorePicker}/>
+	<Route path="/store/:storeId" component={App}/>
+	<Route path="*" component={NotFound}/>
 	</Router>
 	)
 
