@@ -10,6 +10,8 @@ var Route = ReactRouter.Route;
 var History = ReactRouter.History;
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import helpers from './helpers';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
+
 //import Firebase from 'firebase';
 // How we can use Firebase
 var Rebase = require('re-base');
@@ -191,12 +193,18 @@ var Order = React.createClass({
 		}
 		return (
 			<li key={key}>
-				{count}lbs
-				{fish.name}
+				<span>
+					<CSSTransitionGroup component="span" transitionName="count"
+						transtionLeaveTimeout={250} transitionEnterTimeout={250}
+						className="count">
+						<span key={count}>{count}</span>
+					</CSSTransitionGroup>	
+					
+					lbs {fish.name} {removeButton}
+				</span>
 				<span className="price">{helpers.formatPrice(count * fish.price)}</span>
-				{removeButton}
 			</li>)
-	},
+		},
 	render() {
 		// need to calculate order
 		var orderIds = Object.keys(this.props.order);
@@ -213,13 +221,21 @@ var Order = React.createClass({
 		return(
 			<div className="order-wrap">
 				<h2 className="order-title">Your Order</h2>
-					<ul className="order">
+	{/* TransitionGroup has to be parent of all things that will be animated */}
+					<CSSTransitionGroup
+					 className="order"
+					 component="ul"
+					 transitionName="order"
+					 transitionEnterTimeout={500}
+					 transtionLeaveTimeout={500}
+					 >
+						
 						{orderIds.map(this.renderOrder)}
 						<li className="total">
 							<strong>Total:</strong>
 							{helpers.formatPrice(total)}
 						</li>
-					</ul>
+					</CSSTransitionGroup>
 			</div>
 			)
 	}
