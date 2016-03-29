@@ -1,12 +1,12 @@
 import React from 'react';
 // var React = require('react');
-import ReactDOM from 'react-dom';
-// to use ReactDOM, needed for 
-//import ReactRouter from 'react-router';
-//import { ReactRouter, Router, Route, History } from 'react-router';
-var ReactRouter = require('react-router');
-var Router  = ReactRouter.Router;
-var Route = ReactRouter.Route;
+import ReactDOM from 'react-dom'; 
+
+import { Router, Route, History } from 'react-router';
+//var ReactRouter = require('react-router');
+//var Router  = ReactRouter.Router;
+//var Route = ReactRouter.Route;
+
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import helpers from './helpers';
 
@@ -29,7 +29,8 @@ import Inventory from './components/Inventory';
 // App
 //class App extends React.Component{
 	var App = React.createClass({
-	mixins: [Catalyst.LinkedStateMixin],	
+	mixins: [Catalyst.LinkedStateMixin],
+	// cannot use mixins or bind with ES6	
 	//constructor() {
 	//	super();
 	getInitialState() {
