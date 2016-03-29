@@ -15,7 +15,8 @@ import helpers from './helpers';
 var Rebase = require('re-base');
 var base = Rebase.createClass('https://react-catchday.firebaseio.com/');
 	// base is reference to Firebase database
-var Catalyst = require('react-catalyst');	
+import Catalyst from 'react-catalyst';	
+import reactMixin from 'react-mixin';
 
 // Import Components
 import NotFound from './components/NotFound';
@@ -26,13 +27,16 @@ import Inventory from './components/Inventory';
 // AddFishForm is in Inventory bc used only in Inventory.js
 
 
+
 // App
 //class App extends React.Component{
 	var App = React.createClass({
-	mixins: [Catalyst.LinkedStateMixin],
-	// cannot use mixins or bind with ES6	
+	//mixins: [Catalyst.LinkedStateMixin],  // cannot use mixins or bind with ES6	
+
+	//instead of getInitialState() use:
 	//constructor() {
-	//	super();
+		//super();
+		//this.state = {
 	getInitialState() {
 		return {
 			fishes: {},
@@ -101,12 +105,15 @@ import Inventory from './components/Inventory';
 				<Order fishes={this.state.fishes} order={this.state.order} 
 				removeFromOrder={this.removeFromOrder}/>
 				<Inventory addFish={this.addFish} loadSamples={this.loadSamples}
-				fishes={this.state.fishes} linkState={this.linkState}
+				fishes={this.state.fishes} linkState={this.linkState.bind(this)}
 				removeFish={this.removeFish}/>
 			</div>
 		)
 	}
 });
+// add component using mixin then mixin info
+reactMixin.onClass(App, Catalyst.LinkedStateMixin);
+// add bind to line 106 bc linkState not called until after, on line 113
 
 // OneFish TwoFish ThreeFish
 var Fish = React.createClass({

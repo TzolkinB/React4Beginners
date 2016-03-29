@@ -3,7 +3,7 @@ import React from 'react';
 import { History } from 'react-router';
 //var ReactRouter = require('react-router');
 //var History = ReactRouter.History;
-//import react-mixin to use mixin functionality in ES6
+//import react-mixin to use mixin functionality in ES6:
 import reactMixin from 'react-mixin';
 
 // StorePicker
@@ -15,12 +15,11 @@ class StorePicker extends React.Component {
   	event.preventDefault();
   	var storeId = this.refs.storeId.value;
     // var storeId gets data from the input
-	// this is StorePickers, refs is reference from ln80
 	this.history.pushState(null, '/store/' + storeId);
 	}
 	render() {
 		return (
-			<form className="store-selector" onSubmit={this.goToStore}>
+			<form className="store-selector" onSubmit={this.goToStore.bind(this)}>
 				<h2>Crazy Store Name</h2>
 				<input type="text" ref="storeId" defaultValue={helpers.getFunName()} required />
 				<input type="Submit" />
@@ -29,7 +28,7 @@ class StorePicker extends React.Component {
 	}
 
 };
-// add to use mixin
+// add to use mixin:
 reactMixin.onClass(StorePicker, History);
 
 export default StorePicker;

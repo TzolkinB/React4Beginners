@@ -2,7 +2,7 @@ import React from 'react';
 import AddFishForm from './AddFishForm';
 
 // Inventory
-// class Inventory extends React.Component{
+//class Inventory extends React.Component{
 var Inventory = React.createClass({
   renderInventory(key) {
     var linkState = this.props.linkState;
@@ -21,7 +21,7 @@ var Inventory = React.createClass({
       </div>
     )
   },
-	render : function() {
+	render() {
     	return (
 	      	<div>
 	        	<h2>Inventory</h2>
@@ -34,14 +34,14 @@ var Inventory = React.createClass({
 					App component*/}
 			</div>	
 		)
-	},
-	propTypes: {
+	}
+});
+
+Inventory.propTypes= {
 		addFish: React.PropTypes.func.isRequired,
 		loadSamples: React.PropTypes.func.isRequired,
 		fishes: React.PropTypes.object.isRequired,
 		linkState: React.PropTypes.func.isRequired,
 		removeFish: React.PropTypes.func.isRequired
-	}
-})
-
+}
 export default Inventory;

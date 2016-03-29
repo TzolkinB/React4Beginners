@@ -1,8 +1,8 @@
 import React from 'react';
 
 // Add Fish FORM
-var AddFishForm = React.createClass({
-//class AddFishForm extends React.Component{
+//var AddFishForm = React.createClass({
+class AddFishForm extends React.Component{
 	createFish(event) {
     // 1. Stop the form from submitting
     event.preventDefault();
@@ -18,7 +18,7 @@ var AddFishForm = React.createClass({
     // 3. Add the fish to the App State
     this.props.addFish(fish);
     this.refs.fishForm.reset();
-  },
+  }
   render() {
   	return (
   		<form className="fish-edit" ref="fishForm" onSubmit={this.createFish}>
@@ -34,6 +34,6 @@ var AddFishForm = React.createClass({
   		</form>
   		)
   }
-});
+};
 
 export default AddFishForm;
